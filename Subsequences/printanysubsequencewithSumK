@@ -1,0 +1,32 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+void printF(int ind,vector<int> &ds,int sum,int reqdsum,int arr[],int n){
+    if(ind==n){
+       if(sum==reqdsum){
+        int len=ds.size();
+        for(int i=0;i<len;i++){
+            cout<<ds[i]<<" ";
+        }
+        cout<<endl;
+       }
+        return;
+    }
+    //take or pick the number into the subsequence
+    ds.push_back(arr[ind]);
+    sum=sum+arr[ind];
+    printF(ind+1,ds,sum,reqdsum,arr,n);
+    //not pick/take the number in the subsequence
+    
+    ds.pop_back();
+    sum=sum-arr[ind];
+    printF(ind+1,ds,sum,reqdsum,arr,n);
+}
+int main(){
+    int arr[]={1,2,1};
+    int n=3;
+    vector<int> ds;
+    int sum=2;
+    printF(0,ds,0,sum,arr,n);
+    return 0;
+}

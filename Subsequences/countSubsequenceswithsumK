@@ -1,0 +1,28 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int printF(int ind,int sum,int reqdsum,int arr[],int n){
+    //condition not satisfied
+    //strictly done if array contains only positive elements
+    if(sum>reqdsum){
+        return 0;
+    }
+    if(ind==n){
+        //condition satisfied
+       if(sum==reqdsum) return 1;
+       //condition not satisfied
+       else return 0;
+    }
+    sum=sum+arr[ind];
+    int l=printF(ind+1,sum,reqdsum,arr,n);
+    sum=sum-arr[ind];
+    int r=printF(ind+1,sum,reqdsum,arr,n);
+    return l+r;
+}
+int main(){
+    int arr[]={1,2,1};
+    int n=3;
+    int sum=2;
+    cout<<printF(0,0,sum,arr,n)<<endl;
+    return 0;
+}

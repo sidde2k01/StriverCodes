@@ -1,0 +1,52 @@
+//NOTE-Code not running just rough pseudo code written
+#include <iostream>
+#include<climits>
+#include<vector>
+using namespace std;
+//recursion
+int f(int ind,vector<int> heights,int n,int k){
+    if(ind==0){
+        return 0;
+    }
+    int minsteps=INT_MAX;
+    for(int j=1;j<=k;j++){
+        minsteps=min(minsteps,f(ind-k)+heights[ind]-heights[ind-k]);
+    }
+    return minsteps;
+}
+//memoization
+int f2(int ind,vector<int> heights,int n,int k,vector<int> &dp){
+    if(ind==0){
+        return 0;
+    }
+    if(dp[n]!=-1) return dp[n];
+    int minsteps=INT_MAX;
+    
+    for(int j=1;j<=k;j++){
+        minsteps=min(minsteps,f(ind-k)+heights[ind]-heights[ind-k]);
+    }
+    return dp[n]=minsteps;
+}
+//tabulation
+int f3(int ind,vector<int> heights,int n,int k){
+    vector<int> dp(n);
+    dp[0]=0;
+    int minsteps;
+    for(int i=1;i<n;i++){
+        minsteps=INT_MAX;
+        for(int j=1;j<=k;j++){
+            if(i-j>=0){
+                minsteps=min(minsteps,dp[i-j]+abs(heights[i]-heights[i-k]));
+            }
+        }
+        dp[i]=minsteps;
+    }
+    return dp[n-1];
+}
+
+int main() {
+    
+    f(0,heights,n,k);
+    vector<int> dp(n+1,-1);
+    return 0;
+}

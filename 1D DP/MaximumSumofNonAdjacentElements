@@ -1,0 +1,62 @@
+#include <bits/stdc++.h> 
+/* Recursive Code
+#include <bits/stdc++.h> 
+int helper(int n,vector<int> &nums){
+    if(n==0){
+        return nums[n];
+    }
+    if(n<0) return 0;
+    int pick=nums[n]+helper(n-2,nums);
+    int notpick=0+helper(n-1,nums);
+    return max(pick,notpick);
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+    int count=nums.size();
+    return helper(count-1,nums);
+}
+*/
+//memoization
+int helper(int n,vector<int> &nums,vector<int>&dp){
+    if(n==0){
+        return nums[n];
+    }
+    if(n<0) return 0;
+    if(dp[n]!=-1) return dp[n];
+    int pick=nums[n]+helper(n-2,nums,dp);
+    int notpick=0+helper(n-1,nums,dp);
+    return dp[n]=max(pick,notpick);
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+    int count=nums.size();
+    vector<int> dp(count,-1);
+    return helper(count-1,nums,dp);
+}
+
+//Tabulation
+int maximumNonAdjacentSum(vector<int> &nums){
+    int n=nums.size();
+    vector<int> dp(n);
+    dp[0]=nums[0];
+    dp[1]=max(nums[0],nums[1]);
+    for(int i=2;i<n;i++){
+        int pick=nums[i]+dp[i-2];
+        int notpick=0+dp[i-1];
+        dp[i]=max(pick,notpick);
+    }
+    return dp[n-1];
+}
+//Space Optimized
+int maximumNonAdjacentSum(vector<int> &nums){
+    int n=nums.size();
+    int a=nums[0];
+    int b=max(nums[0],nums[1]);
+    int c;
+    for(int i=2;i<n;i++){
+        int pick=nums[i]+a;
+        int nonpick=0+b;
+        c=max(pick,nonpick);
+        a=b;
+        b=c;
+    }
+    return b;
+}
